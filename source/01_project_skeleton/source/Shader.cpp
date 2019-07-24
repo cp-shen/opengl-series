@@ -1,14 +1,14 @@
 /*
  tdogl::Shader
- 
+
  Copyright 2012 Thomas Dalling - http://tomdalling.com/
- 
+
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.apache.org/licenses/LICENSE-2.0
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,31 +33,31 @@ Shader::Shader(const std::string& shaderCode, GLenum shaderType) :
     _object = glCreateShader(shaderType);
     if(_object == 0)
         throw std::runtime_error("glCreateShader failed");
-    
+
     //set the source code
     const char* code = shaderCode.c_str();
     glShaderSource(_object, 1, (const GLchar**)&code, NULL);
-    
+
     //compile
     glCompileShader(_object);
-    
+
     //throw exception if compile error occurred
     GLint status;
     glGetShaderiv(_object, GL_COMPILE_STATUS, &status);
     if (status == GL_FALSE) {
         std::string msg("Compile failure in shader:\n");
-        
+
         GLint infoLogLength;
         glGetShaderiv(_object, GL_INFO_LOG_LENGTH, &infoLogLength);
         char* strInfoLog = new char[infoLogLength + 1];
         glGetShaderInfoLog(_object, infoLogLength, NULL, strInfoLog);
         msg += strInfoLog;
         delete[] strInfoLog;
-        
+
         glDeleteShader(_object); _object = 0;
         throw std::runtime_error(msg);
     }
-    
+
     _refCount = new unsigned;
     *_refCount = 1;
 }

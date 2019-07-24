@@ -56,11 +56,11 @@ static void LoadTriangle() {
     // make and bind the VAO
     glGenVertexArrays(1, &gVAO);
     glBindVertexArray(gVAO);
-    
+
     // make and bind the VBO
     glGenBuffers(1, &gVBO);
     glBindBuffer(GL_ARRAY_BUFFER, gVBO);
-    
+
     // Put the three triangle verticies into the VBO
     GLfloat vertexData[] = {
         //  X     Y     Z
@@ -69,11 +69,11 @@ static void LoadTriangle() {
          0.8f,-0.8f, 0.0f,
     };
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
-    
+
     // connect the xyz to the "vert" attribute of the vertex shader
     glEnableVertexAttribArray(gProgram->attrib("vert"));
     glVertexAttribPointer(gProgram->attrib("vert"), 3, GL_FLOAT, GL_FALSE, 0, NULL);
-    
+
     // unbind the VBO and VAO
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -85,22 +85,22 @@ static void Render() {
     // clear everything
     glClearColor(0, 0, 0, 1); // black
     glClear(GL_COLOR_BUFFER_BIT);
-    
+
     // bind the program (the shaders)
     glUseProgram(gProgram->object());
-        
+
     // bind the VAO (the triangle)
     glBindVertexArray(gVAO);
-    
+
     // draw the VAO
     glDrawArrays(GL_TRIANGLES, 0, 3);
-    
+
     // unbind the VAO
     glBindVertexArray(0);
-    
+
     // unbind the program
     glUseProgram(0);
-    
+
     // swap the display buffers (displays what was just drawn)
     glfwSwapBuffers(gWindow);
 }
@@ -115,7 +115,7 @@ void AppMain() {
     glfwSetErrorCallback(OnError);
     if(!glfwInit())
         throw std::runtime_error("glfwInit failed");
-    
+
     // open a window with GLFW
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -128,7 +128,7 @@ void AppMain() {
 
     // GLFW settings
     glfwMakeContextCurrent(gWindow);
-    
+
     // initialise GLEW
     glewExperimental = GL_TRUE; //stops glew crashing on OSX :-/
     if(glewInit() != GLEW_OK)
@@ -154,7 +154,7 @@ void AppMain() {
     while(!glfwWindowShouldClose(gWindow)){
         // process pending events
         glfwPollEvents();
-        
+
         // draw one frame
         Render();
     }
